@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { updateHeroProfileTypes } from '../types';
 
-export function getHeroesList() {
-  return axios({
+export function getHeroesList<T>() {
+  return axios<T>({
     url: 'https://hahow-recruit.herokuapp.com/heroes',
     method: 'GET',
   });

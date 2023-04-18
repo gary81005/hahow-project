@@ -1,9 +1,11 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ListAndProfile from './pages/ListAndProfile';
 import ErroBoundaryrPage from './pages/ErroBoundaryrPage';
 import Home from './pages/Home';
 import './App.css';
 
+const theme = createTheme();
 const router = createBrowserRouter([
   {
     path: '/',
@@ -24,7 +26,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  );
 }
 
 export default App;
