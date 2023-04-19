@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react';
 import { Box, Card, CardContent, CardMedia, Container, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Hero } from '../services/types';
-import { getHeroesList } from '../services/heroes';
+import { Abilities, Hero } from '../services/types';
+import { getHeroProfile, getHeroesList } from '../services/heroes';
+import { AbilitiesSetting } from '../components/heroes';
 
 const StyledBox = styled(Box)`
   & {
     width: 100%;
     display: flex;
-    aligin-items: center;
+    align-items: center;
     justify-content: center;
   }
 `;
@@ -27,6 +28,7 @@ const StyledCardMedia = styled(CardMedia)(() => ({
 
 const ListAndProfile = () => {
   const [list, setList] = useState<Hero[]>([]);
+  const [abilities, setAbilities] = useState<Abilities | null>(null);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -35,7 +37,11 @@ const ListAndProfile = () => {
   }, []);
 
   useEffect(() => {
-    console.log(id);
+    if (id) {
+      getHeroProfile<Abilities>(id).then(({ data }) => {
+        setAbilities(data);
+      });
+    }
   }, [id]);
 
   const handleClick = (id: string) => {
@@ -56,7 +62,7 @@ const ListAndProfile = () => {
           </StyledCard>
         ))}
       </StyledBox>
-      {id && <div>{id}</div>}
+      {id && abilities ? <AbilitiesSetting abilities={abilities} /> : null}
     </Container>
   );
 };

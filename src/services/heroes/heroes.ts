@@ -8,8 +8,8 @@ export function getHeroesList<T>() {
   });
 }
 
-export function getHeroProfile(heroId: string) {
-  return axios({
+export function getHeroProfile<T>(heroId: string) {
+  return axios<T>({
     url: `https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`,
     method: 'GET',
   });

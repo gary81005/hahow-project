@@ -5,10 +5,7 @@ export interface Hero {
 }
 
 export interface Abilities {
-  str: number;
-  int: number;
-  agi: number;
-  luk: number;
+  [x: string]: number;
 }
 
 export interface updateHeroProfileTypes {
