@@ -5,7 +5,7 @@ import { styled } from '@mui/system';
 import { Abilities } from '../../services/types';
 import { updateHeroProfile } from '../../services/heroes';
 import { useListAndProfileContext } from '../../context';
-import { AbilityTitle, AddButton, MinusButton, AbilityValue, SaveButton } from '../Heroes';
+import { AbilityTitle, AddButton, MinusButton, AbilityValue, SaveButton } from '../HeroesTemp';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',
