@@ -42,6 +42,7 @@ interface UserNoti {
   alertOpen: boolean;
   status: 'warning' | 'success' | 'error';
   info: string | null;
+  hasChanged: boolean;
 }
 
 interface AbilitiesSettins {
@@ -61,10 +62,11 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
     alertOpen: false,
     status: 'warning',
     info: null,
+    hasChanged: false,
   });
 
   const { titles, values, remain } = abilitiesSettins;
-  const { alertOpen, status, info } = userNoti;
+  const { alertOpen, status, info, hasChanged } = userNoti;
 
   const handleAdd = (type: string) => {
     setAbilitiesSetting((prev) => ({
@@ -74,6 +76,10 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
         ...prev.values,
         [type]: values ? values?.[type] + 1 : 0,
       },
+    }));
+    setUserNoti((prev) => ({
+      ...prev,
+      hasChanged: true,
     }));
   };
 
@@ -86,25 +92,31 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
         [type]: values ? values?.[type] - 1 : 0,
       },
     }));
+    setUserNoti((prev) => ({
+      ...prev,
+      hasChanged: true,
+    }));
   };
 
   const checkValidate = () => {
     // check abilities is changed or not
-    if (JSON.stringify(abilities) === JSON.stringify(values)) {
-      setUserNoti({
+    if (!hasChanged) {
+      setUserNoti((prev) => ({
+        ...prev,
         alertOpen: true,
         status: 'warning',
         info: '請先調整能力值',
-      });
+      }));
       return false;
     }
     // check remain points is 0 or not
     if (remain !== 0) {
-      setUserNoti({
+      setUserNoti((prev) => ({
+        ...prev,
         alertOpen: true,
         status: 'warning',
         info: '請使用完剩餘點數',
-      });
+      }));
       return false;
     }
 
@@ -121,14 +133,16 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
             alertOpen: true,
             status: 'success',
             info: '更新成功',
+            hasChanged: false,
           });
         })
         .catch(() => {
-          setUserNoti({
+          setUserNoti((prev) => ({
+            ...prev,
             alertOpen: true,
             status: 'error',
             info: '更新失敗',
-          });
+          }));
         })
         .finally(() => {
           updateStatus && updateStatus(false);
@@ -154,6 +168,7 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
       alertOpen: false,
       status: 'warning',
       info: 'null',
+      hasChanged: false,
     });
   }, [abilities]);
 
