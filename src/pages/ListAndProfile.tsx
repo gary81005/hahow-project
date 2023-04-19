@@ -12,15 +12,20 @@ const ListAndProfile = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    getHeroesList<Hero[]>()
+    const con = new AbortController();
+
+    getHeroesList<Hero[]>(con)
       .then(({ data }) => setList(data))
       .catch(() => setList([]));
+
+    return () => con.abort();
   }, []);
 
   useEffect(() => {
+    const con = new AbortController();
     // listen routing id change, if changed, get latest hero profile
     if (id) {
-      getHeroProfile<Abilities>(id)
+      getHeroProfile<Abilities>(id, con)
         .then(({ data }) => {
           setAbilities(data);
         })
@@ -28,6 +33,8 @@ const ListAndProfile = () => {
           setAbilities(null);
         });
     }
+
+    return () => con.abort();
   }, [id]);
 
   return (
