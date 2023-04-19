@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { Abilities, Hero } from '../services/types';
 import { getHeroProfile, getHeroesList } from '../services/heroes';
-import { AbilitiesSetting, HeroCardList } from '../components/HeroesTemp';
+import { AbilitiesSetting, HeroCardList } from '../components/Heroes';
 import { ListAndProfileProvider } from '../context';
 
 const ListAndProfile = () => {
