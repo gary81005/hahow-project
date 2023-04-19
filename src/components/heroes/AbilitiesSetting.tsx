@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Alert, Box, IconButton, Snackbar, Typography } from '@mui/material';
+import { Alert, Box, Snackbar, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import { Abilities } from '../../services/types';
 import { updateHeroProfile } from '../../services/heroes';
 import { useListAndProfileContext } from '../../context';
+import { AbilityTitle, AddButton, MinusButton, AbilityValue } from '../Heroes';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -162,27 +162,15 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
       <StyledBox>
         <Box>
           {titles.map((opt) => (
-            <Box>
-              <Typography key={opt} gutterBottom variant="h5" component="div">
-                {opt.toUpperCase()}
-              </Typography>
-              <IconButton size="small" disabled={remain === 0} onClick={() => handleAdd(opt)}>
-                <AddOutlined />
-              </IconButton>
-              {values ? (
-                <Typography variant="body1" component="div">
-                  {values[opt]}
-                </Typography>
-              ) : (
-                0
-              )}
-              <IconButton
+            <Box key={opt}>
+              <AbilityTitle title={opt.toUpperCase()} />
+              <AddButton size="small" disabled={remain === 0} onClick={() => handleAdd(opt)} />
+              {values ? <AbilityValue value={values[opt]} /> : 0}
+              <MinusButton
                 size="small"
                 disabled={!values || values[opt] === 0}
                 onClick={() => handleMinus(opt)}
-              >
-                <RemoveOutlined />
-              </IconButton>
+              />
             </Box>
           ))}
         </Box>
@@ -204,7 +192,7 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
         autoHideDuration={5000}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity={status} sx={{ width: '100%' }}>
+        <Alert onClose={handleClose} severity={status}>
           {info}
         </Alert>
       </Snackbar>
