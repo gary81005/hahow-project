@@ -5,14 +5,14 @@ import { Hero } from '../../services/types';
 import { useListAndProfileContext } from '../../context';
 
 type CardProps = {
-  isSelected: boolean;
+  selected: boolean;
   disabled: boolean;
 };
 
-const StyledCard = styled(Card)<CardProps>(({ theme, disabled, isSelected }) => ({
+const StyledCard = styled(Card)<CardProps>(({ theme, disabled, selected }) => ({
   margin: theme.spacing(2),
   cursor: 'pointer',
-  backgroundColor: isSelected ? theme.palette.primary.main : theme.palette.background.default,
+  backgroundColor: selected ? theme.palette.primary.main : theme.palette.background.default,
   border: '1px solid',
   pointerEvents: disabled ? 'none' : 'auto',
   ':hover': { boxShadow: '0 0 20px 10px lightgrey' },
@@ -35,12 +35,7 @@ const HeroCard = ({
   const { isLoading } = useListAndProfileContext();
 
   return (
-    <StyledCard
-      disabled={isLoading || false}
-      isSelected={isSelected}
-      onClick={onClick}
-      elevation={0}
-    >
+    <StyledCard disabled={isLoading || false} selected={isSelected} onClick={onClick} elevation={0}>
       <StyledCardMedia image={hero.image} title={hero.name} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

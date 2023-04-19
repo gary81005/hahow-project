@@ -11,7 +11,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   padding: theme.spacing(2),
-  '& > .MuiBox-root:first-child': {
+  '& > .MuiBox-root:first-of-type': {
     display: 'flex',
     flexDirection: 'column',
     '.MuiTypography-root': {
@@ -25,7 +25,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
       justifyContent: 'center',
     },
   },
-  '& > .MuiBox-root:last-child': {
+  '& > .MuiBox-root:last-of-type': {
     width: theme.spacing(20),
     display: 'flex',
     flexDirection: 'column',
