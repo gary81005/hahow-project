@@ -38,42 +38,71 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
+interface UserNoti {
+  alertOpen: boolean;
+  status: 'warning' | 'success' | 'error';
+  info: string | null;
+}
+
+interface AbilitiesSettins {
+  titles: string[];
+  values: Abilities | null;
+  remain: number;
+}
+
 const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Abilities }) => {
   const { isLoading, updateStatus } = useListAndProfileContext();
-  const [titles, setTitles] = useState<string[]>([]);
-  const [values, setValues] = useState<Abilities | null>(null);
-  const [remain, setRemain] = useState(0);
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [status, setStatus] = useState<'warning' | 'success' | 'error'>('warning');
-  const [info, setInfo] = useState<string | null>(null);
+  const [abilitiesSettins, setAbilitiesSetting] = useState<AbilitiesSettins>({
+    titles: [],
+    values: null,
+    remain: 0,
+  });
+  const [userNoti, setUserNoti] = useState<UserNoti>({
+    alertOpen: false,
+    status: 'warning',
+    info: null,
+  });
+
+  const { titles, values, remain } = abilitiesSettins;
+  const { alertOpen, status, info } = userNoti;
 
   const handleAdd = (type: string) => {
-    setRemain(remain - 1);
-    setValues((prev) => ({
+    setAbilitiesSetting((prev) => ({
       ...prev,
-      [type]: values ? values?.[type] + 1 : 0,
+      remain: remain - 1,
+      values: {
+        ...prev.values,
+        [type]: values ? values?.[type] + 1 : 0,
+      },
     }));
   };
 
   const handleMinus = (type: string) => {
-    setRemain(remain + 1);
-    setValues((prev) => ({
+    setAbilitiesSetting((prev) => ({
       ...prev,
-      [type]: values ? values?.[type] - 1 : 0,
+      remain: remain + 1,
+      values: {
+        ...prev.values,
+        [type]: values ? values?.[type] - 1 : 0,
+      },
     }));
   };
 
   const checkValidate = () => {
     if (JSON.stringify(abilities) === JSON.stringify(values)) {
-      setInfo('請先調整能力值');
-      setStatus('warning');
-      setAlertOpen(true);
+      setUserNoti({
+        alertOpen: true,
+        status: 'warning',
+        info: '請先調整能力值',
+      });
       return false;
     }
     if (remain !== 0) {
-      setInfo('請使用完剩餘點數');
-      setStatus('warning');
-      setAlertOpen(true);
+      setUserNoti({
+        alertOpen: true,
+        status: 'warning',
+        info: '請使用完剩餘點數',
+      });
       return false;
     }
 
@@ -85,31 +114,44 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
       updateStatus && updateStatus(true);
       updateHeroProfile({ heroId, abilities: values })
         .then(() => {
-          setStatus('success');
-          setInfo('更新成功');
+          setUserNoti({
+            alertOpen: true,
+            status: 'success',
+            info: '更新成功',
+          });
         })
         .catch(() => {
-          setStatus('error');
-          setInfo('更新失敗');
+          setUserNoti({
+            alertOpen: true,
+            status: 'error',
+            info: '更新失敗',
+          });
         })
         .finally(() => {
           updateStatus && updateStatus(false);
-          setAlertOpen(true);
         });
     }
   };
 
   const handleClose = () => {
-    setAlertOpen(false);
+    setUserNoti((prev) => ({
+      ...prev,
+      alertOpen: false,
+    }));
   };
 
   useEffect(() => {
     const abilitiesTitle = Object.keys(abilities);
-    setTitles(abilitiesTitle);
-    setAlertOpen(false);
-    setStatus('warning');
-    setValues(abilities);
-    setRemain(0);
+    setAbilitiesSetting({
+      titles: abilitiesTitle,
+      values: abilities,
+      remain: 0,
+    });
+    setUserNoti({
+      alertOpen: false,
+      status: 'warning',
+      info: 'null',
+    });
   }, [abilities]);
 
   return (
