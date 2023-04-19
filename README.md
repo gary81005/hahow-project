@@ -28,7 +28,7 @@ Outline:
    npm run dev
    ```
 
-   指令結束後 瀏覽器輸入，即可進入頁面
+   指令結束後 瀏覽器輸入以下網址，即可進入頁面
 
    ```
    http://localhost:5173/heroes
@@ -41,7 +41,7 @@ Outline:
    npm run preview
    ```
 
-   指令結束後 瀏覽器輸入，即可進入頁面
+   指令結束後 瀏覽器輸入以下網址，即可進入頁面
 
    ```
    http://localhost:4173/heroes
@@ -51,7 +51,10 @@ Outline:
 
 ```
   src/
-  ├─ index.ts
+  ├─ main.txs
+  ├─ index.css
+  ├─ App.css
+  ├─ App.txs
   ├─ assets/
   │  └─ react.svg
   ├─ components/
@@ -59,6 +62,11 @@ Outline:
   │     ├─ AbilitiesSetting.tsx
   |     ├─ HeroCard.tsx
   │     ├─ HeroCardList.tsx
+  │     ├─ AbilityTitle.tsx
+  │     ├─ AbilityValue.tsx
+  │     ├─ AddButton.tsx
+  │     ├─ MinusButton.tsx
+  │     ├─ SaveButton.tsx
   │     └─ index.ts
   ├─ context/
   │  ├─ index.tsx
@@ -67,13 +75,16 @@ Outline:
   │  ├─ ErrorBoundaryPage.tsx
   │  ├─ Home.tsx
   │  └─ ListAndProfile.tsx
-  └─ services/
-     ├─ types/
-     │  ├─ heroes.ts
-     │  └─ index.ts
-     └─ heroes
-        ├─ heroes.ts
-        └─ index.ts
+  ├─ services/
+  │  ├─ types/
+  │  │  ├─ heroes.ts
+  │  │  └─ index.ts
+  │  └─ heroes
+  │     ├─ heroes.ts
+  │     └─ index.ts
+  └─ utils/
+     ├─ api-helper.ts
+     └─ index.ts
 ```
 
 ## API 使用
@@ -82,9 +93,16 @@ Outline:
 
 ## 元件切分
 
+主要切分為 Hero Card List 跟 Abilities Setting 兩個元件，再從這兩個元件去細碎化出小元件組起來，結構如下:
+
 1. Hero Card List
-2. Hero Card
-3. Abilities Setting
+   - Hero Card
+2. Abilities Setting
+   - AbilityTitle
+   - AbilityValue
+   - AddButton
+   - MinusButton
+   - SaveButton
 
 ## 第三方套件使用
 
@@ -109,6 +127,8 @@ Outline:
 
 ## 開發歷程
 
+### 開發步驟
+
 1. 初步評估
    - 先了解專案需求，初步選擇開發工具與模組
    - 為何使用 vite:
@@ -128,3 +148,16 @@ Outline:
    - 確認更新資料正確
    - 補上驗證、防呆機制
 6. 程式重構
+   - 重新審視程式碼，進行元件細碎化，簡化描述
+   - 調整元件 state 的使用方式
+   - 提升體驗的行為與效能 ex.提示、按鈕轉圈、防止誤觸等等
+
+### 註解原則
+
+- 重要的 funtion 會在第一行註解描述其行為
+- function、變數的命名盡量一目了然易懂，描述其行為
+
+### 開發上的困境
+
+- 功能的實作上其實並不困難，但初版完成後，如何優化跟切分程式、元件是比較需要花時間思考的部分
+- 需要不斷的練習跟嘗試調整，或是跟其他人溝通交流討論，才能慢慢讓程式架構越來越好
