@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Alert, Box, Button, IconButton, Snackbar, Typography } from '@mui/material';
+import { Alert, Box, IconButton, Snackbar, Typography } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import { Abilities } from '../../services/types';
 import { updateHeroProfile } from '../../services/heroes';
+import { useListAndProfileContext } from '../../context';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -37,17 +39,16 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Abilities }) => {
+  const { isLoading, updateStatus } = useListAndProfileContext();
   const [titles, setTitles] = useState<string[]>([]);
   const [values, setValues] = useState<Abilities | null>(null);
   const [remain, setRemain] = useState(0);
   const [alertOpen, setAlertOpen] = useState(false);
   const [status, setStatus] = useState<'warning' | 'success' | 'error'>('warning');
   const [info, setInfo] = useState<string | null>(null);
-  const [hasChange, setHasChage] = useState(false);
 
   const handleAdd = (type: string) => {
     setRemain(remain - 1);
-    setHasChage(true);
     setValues((prev) => ({
       ...prev,
       [type]: values ? values?.[type] + 1 : 0,
@@ -56,7 +57,6 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
 
   const handleMinus = (type: string) => {
     setRemain(remain + 1);
-    setHasChage(true);
     setValues((prev) => ({
       ...prev,
       [type]: values ? values?.[type] - 1 : 0,
@@ -64,7 +64,7 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
   };
 
   const checkValidate = () => {
-    if (!hasChange) {
+    if (JSON.stringify(abilities) === JSON.stringify(values)) {
       setInfo('請先調整能力值');
       setStatus('warning');
       setAlertOpen(true);
@@ -82,6 +82,7 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
 
   const handleSave = () => {
     if (values && checkValidate()) {
+      updateStatus && updateStatus(true);
       updateHeroProfile({ heroId, abilities: values })
         .then(() => {
           setStatus('success');
@@ -92,8 +93,8 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
           setInfo('更新失敗');
         })
         .finally(() => {
+          updateStatus && updateStatus(false);
           setAlertOpen(true);
-          setHasChage(false);
         });
     }
   };
@@ -105,7 +106,6 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
   useEffect(() => {
     const abilitiesTitle = Object.keys(abilities);
     setTitles(abilitiesTitle);
-    setHasChage(false);
     setAlertOpen(false);
     setStatus('warning');
     setValues(abilities);
@@ -143,9 +143,14 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
         </Box>
         <Box>
           <Typography>剩餘點數:{remain}</Typography>
-          <Button variant="contained" color="primary" onClick={handleSave}>
+          <LoadingButton
+            loading={isLoading}
+            variant="contained"
+            color="primary"
+            onClick={handleSave}
+          >
             儲存
-          </Button>
+          </LoadingButton>
         </Box>
       </StyledBox>
       <Snackbar
