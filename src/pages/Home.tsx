@@ -14,7 +14,7 @@ const Home = () => {
         </a>
       </div>
       <h1>Vite + React</h1>
-      <a href="/heroes">Check Heroes!</a>
+      <a href="/heroes">Check To See Heroes!</a>
     </div>
   );
 };

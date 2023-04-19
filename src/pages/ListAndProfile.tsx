@@ -9,7 +9,6 @@ const ListAndProfile = () => {
   const [list, setList] = useState<Hero[]>([]);
   const [abilities, setAbilities] = useState<Abilities | null>(null);
   const { id } = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     getHeroesList<Hero[]>().then(({ data }) => setList(data));
@@ -22,10 +21,6 @@ const ListAndProfile = () => {
       });
     }
   }, [id]);
-
-  const handleClick = (id: string) => {
-    navigate(`/heroes/${id}`);
-  };
 
   return (
     <Container disableGutters>
