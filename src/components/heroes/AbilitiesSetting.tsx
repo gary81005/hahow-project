@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Alert, Box, Snackbar, Typography } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 import { styled } from '@mui/system';
+
 import { Abilities } from '../../services/types';
 import { updateHeroProfile } from '../../services/heroes';
 import { useListAndProfileContext } from '../../context';
-import { AbilityTitle, AddButton, MinusButton, AbilityValue } from '../Heroes';
+import { AbilityTitle, AddButton, MinusButton, AbilityValue, SaveButton } from '../Heroes';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -191,14 +191,12 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
         </Box>
         <Box>
           <Typography>剩餘點數:{remain}</Typography>
-          <LoadingButton
+          <SaveButton
             loading={isLoading}
             variant="contained"
             color="primary"
             onClick={handleSave}
-          >
-            儲存
-          </LoadingButton>
+          />
         </Box>
       </StyledBox>
       <Snackbar

@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { updateHeroProfileTypes } from '../types';
 
 // Get Heroes List
