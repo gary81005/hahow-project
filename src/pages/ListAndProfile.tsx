@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Card, CardContent, CardMedia, Container, Typography } from '@mui/material';
+import { Box, Card, CardContent, CardMedia, Container, Theme, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Abilities, Hero } from '../services/types';
@@ -15,15 +15,19 @@ const StyledBox = styled(Box)`
   }
 `;
 
-const StyledCard = styled(Card)(({ theme }) => ({
-  maxwidth: 345,
+type CardProps = {
+  isSelected: boolean;
+};
+
+const StyledCard = styled(Card)<CardProps>(({ theme, isSelected }) => ({
   margin: theme.spacing(2),
   cursor: 'pointer',
+  backgroundColor: isSelected ? theme.palette.primary.main : theme.palette.background.default,
 }));
 
-const StyledCardMedia = styled(CardMedia)(() => ({
-  height: 140,
-  width: 160,
+const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
+  height: theme.spacing(25),
+  width: theme.spacing(35),
 }));
 
 const ListAndProfile = () => {
@@ -49,10 +53,10 @@ const ListAndProfile = () => {
   };
 
   return (
-    <Container>
+    <Container disableGutters>
       <StyledBox>
         {list.map((opt) => (
-          <StyledCard key={opt.id} onClick={() => handleClick(opt.id)}>
+          <StyledCard key={opt.id} isSelected={opt.id === id} onClick={() => handleClick(opt.id)}>
             <StyledCardMedia image={opt.image} title={opt.name} />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
@@ -62,7 +66,7 @@ const ListAndProfile = () => {
           </StyledCard>
         ))}
       </StyledBox>
-      {id && abilities ? <AbilitiesSetting abilities={abilities} /> : null}
+      {id && abilities ? <AbilitiesSetting heroId={id} abilities={abilities} /> : null}
     </Container>
   );
 };
