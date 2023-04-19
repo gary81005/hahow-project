@@ -2,7 +2,7 @@ import { lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-import { setUpAxios } from './utils/api-helper';
+import { setUpAxios } from './utils';
 import './App.css';
 
 const Home = lazy(() => import('./pages/Home'));
