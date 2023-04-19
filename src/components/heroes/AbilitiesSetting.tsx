@@ -89,6 +89,7 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
   };
 
   const checkValidate = () => {
+    // check abilities is changed or not
     if (JSON.stringify(abilities) === JSON.stringify(values)) {
       setUserNoti({
         alertOpen: true,
@@ -97,6 +98,7 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
       });
       return false;
     }
+    // check remain points is 0 or not
     if (remain !== 0) {
       setUserNoti({
         alertOpen: true,
@@ -109,6 +111,7 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
     return true;
   };
 
+  // save button click handle, it will check validation first. It will call update api if pass
   const handleSave = () => {
     if (values && checkValidate()) {
       updateStatus && updateStatus(true);

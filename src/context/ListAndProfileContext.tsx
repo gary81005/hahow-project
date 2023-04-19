@@ -9,6 +9,7 @@ const ListAndProfileContext = createContext<ListAndProfileContextType>({});
 const { Provider } = ListAndProfileContext;
 const useListAndProfileContext = () => useContext(ListAndProfileContext);
 
+// create a context provider to record loading status
 function ListAndProfileProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false);
 
