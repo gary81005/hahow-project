@@ -1,9 +1,11 @@
+import { lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import ListAndProfile from './pages/ListAndProfile';
-import ErroBoundaryrPage from './pages/ErroBoundaryrPage';
-import Home from './pages/Home';
 import './App.css';
+
+const Home = lazy(() => import('./pages/Home'))
+const ListAndProfile = lazy(() => import('./pages/ListAndProfile'))
+const ErroBoundaryrPage = lazy(() => import('./pages/ErroBoundaryrPage'))
 
 const theme = createTheme();
 const router = createBrowserRouter([
