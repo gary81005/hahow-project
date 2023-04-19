@@ -63,14 +63,25 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
     }));
   };
 
-  const handleSave = () => {
+  const checkValidate = () => {
     if (!hasChange) {
       setInfo('請先調整能力值');
       setStatus('warning');
       setAlertOpen(true);
-      return;
+      return false;
     }
-    if (values) {
+    if (remain !== 0) {
+      setInfo('請使用完剩餘點數');
+      setStatus('warning');
+      setAlertOpen(true);
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSave = () => {
+    if (values && checkValidate()) {
       updateHeroProfile({ heroId, abilities: values })
         .then(() => {
           setStatus('success');
