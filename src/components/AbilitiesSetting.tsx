@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Alert, Box, Snackbar, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 
-import { Abilities } from '../services/types';
 import { updateHeroProfile } from '../services/heroes';
 import { useListAndProfileContext } from '../context';
 import AbilityTitle from './AbilityTitle';
@@ -10,8 +9,9 @@ import AddButton from './AddButton';
 import AbilityValue from './AbilityValue';
 import MinusButton from './MinusButton';
 import SaveButton from './SaveButton';
+import { AbilitiesSettingProps, AbilitiesSettings, UserNoti } from './types';
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const MainContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   padding: theme.spacing(2),
@@ -42,22 +42,9 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-interface UserNoti {
-  alertOpen: boolean;
-  status: 'warning' | 'success' | 'error';
-  info: string | null;
-  hasChanged: boolean;
-}
-
-interface AbilitiesSettins {
-  titles: string[];
-  values: Abilities | null;
-  remain: number;
-}
-
-const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Abilities }) => {
+const AbilitiesSetting = ({ heroId, abilities }: AbilitiesSettingProps) => {
   const { isLoading, updateStatus } = useListAndProfileContext();
-  const [abilitiesSettins, setAbilitiesSetting] = useState<AbilitiesSettins>({
+  const [abilitiesSettings, setAbilitiesSettings] = useState<AbilitiesSettings>({
     titles: [],
     values: null,
     remain: 0,
@@ -69,11 +56,11 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
     hasChanged: false,
   });
 
-  const { titles, values, remain } = abilitiesSettins;
+  const { titles, values, remain } = abilitiesSettings;
   const { alertOpen, status, info, hasChanged } = userNoti;
 
   const handleAdd = (type: string) => {
-    setAbilitiesSetting((prev) => ({
+    setAbilitiesSettings((prev) => ({
       ...prev,
       remain: remain - 1,
       values: {
@@ -88,7 +75,7 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
   };
 
   const handleMinus = (type: string) => {
-    setAbilitiesSetting((prev) => ({
+    setAbilitiesSettings((prev) => ({
       ...prev,
       remain: remain + 1,
       values: {
@@ -167,7 +154,7 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
 
   useEffect(() => {
     const abilitiesTitle = Object.keys(abilities);
-    setAbilitiesSetting({
+    setAbilitiesSettings({
       titles: abilitiesTitle,
       values: abilities,
       remain: 0,
@@ -182,7 +169,7 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
 
   return (
     <>
-      <StyledBox>
+      <MainContainer>
         <Box>
           {titles.map((opt) => (
             <Box key={opt}>
@@ -206,7 +193,7 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
             onClick={handleSave}
           />
         </Box>
-      </StyledBox>
+      </MainContainer>
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={alertOpen}

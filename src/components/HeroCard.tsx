@@ -3,13 +3,9 @@ import { styled } from '@mui/material/styles';
 
 import { Hero } from '../services/types';
 import { useListAndProfileContext } from '../context';
+import { CardProps } from './types';
 
-type CardProps = {
-  selected: boolean;
-  disabled: boolean;
-};
-
-const StyledCard = styled(Card)<CardProps>(({ theme, disabled, selected }) => ({
+const CardContainer = styled(Card)<CardProps>(({ theme, disabled, selected }) => ({
   margin: theme.spacing(2),
   cursor: 'pointer',
   backgroundColor: selected ? theme.palette.primary.main : theme.palette.background.default,
@@ -18,7 +14,7 @@ const StyledCard = styled(Card)<CardProps>(({ theme, disabled, selected }) => ({
   ':hover': { boxShadow: '0 0 20px 10px lightgrey' },
 }));
 
-const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
+const CardImage = styled(CardMedia)(({ theme }) => ({
   objectFit: 'contain',
   height: theme.spacing(25),
 }));
@@ -35,14 +31,19 @@ const HeroCard = ({
   const { isLoading } = useListAndProfileContext();
 
   return (
-    <StyledCard disabled={isLoading || false} selected={isSelected} onClick={onClick} elevation={0}>
-      <StyledCardMedia image={hero.image} title={hero.name} />
+    <CardContainer
+      disabled={isLoading || false}
+      selected={isSelected}
+      onClick={onClick}
+      elevation={0}
+    >
+      <CardImage image={hero.image} title={hero.name} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {hero.name}
         </Typography>
       </CardContent>
-    </StyledCard>
+    </CardContainer>
   );
 };
 

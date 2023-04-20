@@ -1,9 +1,9 @@
 import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { Hero } from '../services/types';
 import HeroCard from './HeroCard';
+import { HeroCardListProps } from './types';
 
-const HeroCardList = ({ heroId, list }: { heroId: string; list: Hero[] }) => {
+const HeroCardList = ({ heroId, list }: HeroCardListProps) => {
   const navigate = useNavigate();
   const handleClick = (id: string) => {
     navigate(`/heroes/${id}`);
