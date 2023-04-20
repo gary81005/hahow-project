@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useEffect } from 'react';
 import { useImmer } from 'use-immer';
 
 import { AbilitiesSettings, UserNoti } from '../components/types';
@@ -6,7 +6,7 @@ import { updateHeroProfile } from '../services/heroes';
 import { useListAndProfileContext } from '../context';
 import { Abilities } from '../services/types';
 
-function useAbilitiesSetting(heroId: string) {
+function useAbilitiesSetting(heroId: string, abilities: Abilities) {
   const { updateStatus } = useListAndProfileContext();
   const [abilitiesSettings, setAbilitiesSettings] = useImmer<AbilitiesSettings>({
     titles: [],
@@ -111,23 +111,20 @@ function useAbilitiesSetting(heroId: string) {
     });
   };
 
-  const resetAbilities = useCallback(
-    (abilities: Abilities) => {
-      const abilitiesTitle = Object.keys(abilities);
-      setAbilitiesSettings((draft) => {
-        draft.titles = abilitiesTitle;
-        draft.remain = 0;
-        draft.values = abilities;
-      });
-      setUserNoti((draft) => {
-        draft.alertOpen = false;
-        draft.status = 'warning';
-        draft.info = null;
-        draft.hasChanged = false;
-      });
-    },
-    [setAbilitiesSettings, setUserNoti],
-  );
+  useEffect(() => {
+    const abilitiesTitle = Object.keys(abilities);
+    setAbilitiesSettings((draft) => {
+      draft.titles = abilitiesTitle;
+      draft.remain = 0;
+      draft.values = abilities;
+    });
+    setUserNoti((draft) => {
+      draft.alertOpen = false;
+      draft.status = 'warning';
+      draft.info = null;
+      draft.hasChanged = false;
+    });
+  }, [abilities, setAbilitiesSettings, setUserNoti]);
 
   return {
     abilitiesSettings,
@@ -136,7 +133,6 @@ function useAbilitiesSetting(heroId: string) {
     handleClose,
     handleMinus,
     handleSave,
-    resetAbilities,
   };
 }
 

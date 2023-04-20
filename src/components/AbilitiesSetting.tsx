@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
 import { Alert, Box, Snackbar, Typography } from '@mui/material';
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
 
 import { useListAndProfileContext } from '../context';
 import AbilityTitle from './AbilityTitle';
@@ -44,22 +43,11 @@ const MainContainer = styled(Box)(({ theme }) => ({
 
 const AbilitiesSetting = ({ heroId, abilities }: AbilitiesSettingProps) => {
   const { isLoading } = useListAndProfileContext();
-  const {
-    abilitiesSettings,
-    userNoti,
-    handleAdd,
-    handleClose,
-    handleMinus,
-    handleSave,
-    resetAbilities,
-  } = useAbilitiesSetting(heroId);
+  const { abilitiesSettings, userNoti, handleAdd, handleClose, handleMinus, handleSave } =
+    useAbilitiesSetting(heroId, abilities);
 
   const { titles, values, remain } = abilitiesSettings;
   const { alertOpen, status, info } = userNoti;
-
-  useEffect(() => {
-    resetAbilities(abilities);
-  }, [abilities, resetAbilities]);
 
   return (
     <>
