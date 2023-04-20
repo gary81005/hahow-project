@@ -5,7 +5,11 @@ import { styled } from '@mui/system';
 import { Abilities } from '../../services/types';
 import { updateHeroProfile } from '../../services/heroes';
 import { useListAndProfileContext } from '../../context';
-import { AbilityTitle, AddButton, MinusButton, AbilityValue, SaveButton } from '../Heroes';
+import AbilityTitle from './AbilityTitle';
+import AddButton from './AddButton';
+import AbilityValue from './AbilityValue';
+import MinusButton from './MinusButton';
+import SaveButton from './SaveButton';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -74,7 +78,7 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
       remain: remain - 1,
       values: {
         ...prev.values,
-        [type]: values ? values?.[type] + 1 : 0,
+        [type]: values && values?.[type] !== undefined ? values[type] + 1 : 0,
       },
     }));
     setUserNoti((prev) => ({
@@ -89,7 +93,7 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
       remain: remain + 1,
       values: {
         ...prev.values,
-        [type]: values ? values?.[type] - 1 : 0,
+        [type]: values && values?.[type] !== undefined ? values[type] - 1 : 0,
       },
     }));
     setUserNoti((prev) => ({
@@ -126,7 +130,9 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
   // save button click handle, it will check validation first. It will call update api if pass
   const handleSave = () => {
     if (values && checkValidate()) {
-      updateStatus && updateStatus(true);
+      if (updateStatus) {
+        updateStatus(true);
+      }
       updateHeroProfile({ heroId, abilities: values })
         .then(() => {
           setUserNoti({
@@ -145,7 +151,9 @@ const AbilitiesSetting = ({ heroId, abilities }: { heroId: string; abilities: Ab
           }));
         })
         .finally(() => {
-          updateStatus && updateStatus(false);
+          if (updateStatus) {
+            updateStatus(false);
+          }
         });
     }
   };

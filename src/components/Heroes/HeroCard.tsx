@@ -1,5 +1,5 @@
 import { Card, CardContent, CardMedia, Typography } from '@mui/material';
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
 
 import { Hero } from '../../services/types';
 import { useListAndProfileContext } from '../../context';

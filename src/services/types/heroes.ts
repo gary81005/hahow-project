@@ -8,7 +8,7 @@ export interface Abilities {
   [x: string]: number;
 }
 
-export interface updateHeroProfileTypes {
+export interface UpdateHeroProfileTypes {
   heroId: string;
   abilities: Abilities;
 }

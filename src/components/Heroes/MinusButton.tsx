@@ -1,5 +1,5 @@
 import { RemoveOutlined } from '@mui/icons-material';
-import { IconButton, IconButtonProps, Typography } from '@mui/material';
+import { IconButton, IconButtonProps } from '@mui/material';
 
 const MinusButton = (props: IconButtonProps) => {
   return (
