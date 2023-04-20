@@ -65,16 +65,22 @@ Outline:
   ├─ assets/
   │  └─ react.svg
   ├─ components/
-  │  └─ Heroes/
-  │     ├─ AbilitiesSetting.tsx
-  |     ├─ HeroCard.tsx
-  │     ├─ HeroCardList.tsx
-  │     ├─ AbilityTitle.tsx
-  │     ├─ AbilityValue.tsx
-  │     ├─ AddButton.tsx
-  │     ├─ MinusButton.tsx
-  │     ├─ SaveButton.tsx
-  │     └─ index.ts
+  |  ├─ types/
+  │  │  ├─ HeroCardList.ts
+  │  │  ├─ AbilitiesSetting.ts
+  │  │  └─ index.ts
+  │  ├─ AbilitiesSetting.tsx
+  |  ├─ HeroCard.tsx
+  │  ├─ HeroCardList.tsx
+  │  ├─ AbilityTitle.tsx
+  │  ├─ AbilityValue.tsx
+  │  ├─ AddButton.tsx
+  │  ├─ MinusButton.tsx
+  │  ├─ SaveButton.tsx
+  │  └─ index.ts
+  ├─ hooks/
+  │  ├─ index.tsx
+  │  └─ useAbilitiesSetting.tsx
   ├─ context/
   │  ├─ index.tsx
   │  └─ ListAndProfileContext.tsx
@@ -131,6 +137,9 @@ Outline:
    - 指令式的工具
    - 使用問答的方式，讓使用者在完成問答時就可以邊寫出符合規範的訊息，以減少來回的次數
    - 確保 commit message 格式一致
+6. useImmer
+   - 一套用簡便的方式，來處理不可變狀態(immutable state)的輕量函式庫
+   - 可以大副度的簡化 immutable 的更新邏輯
 
 ## 開發歷程
 
@@ -161,7 +170,7 @@ Outline:
 
 ### 註解原則
 
-- 重要的 funtion 會在第一行註解描述其行為
+- 重要的 function 會在第一行註解描述其行為
 - function、變數的命名盡量一目了然易懂，描述其行為
 
 ### 開發上的困境

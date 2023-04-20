@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
+import { useImmer } from 'use-immer';
 
 import { AbilitiesSettings, UserNoti } from '../components/types';
 import { updateHeroProfile } from '../services/heroes';
@@ -7,13 +8,13 @@ import { Abilities } from '../services/types';
 
 function useAbilitiesSetting(heroId: string) {
   const { updateStatus } = useListAndProfileContext();
-  const [abilitiesSettings, setAbilitiesSettings] = useState<AbilitiesSettings>({
+  const [abilitiesSettings, setAbilitiesSettings] = useImmer<AbilitiesSettings>({
     titles: [],
     values: null,
     remain: 0,
   });
 
-  const [userNoti, setUserNoti] = useState<UserNoti>({
+  const [userNoti, setUserNoti] = useImmer<UserNoti>({
     alertOpen: false,
     status: 'warning',
     info: null,
@@ -24,54 +25,50 @@ function useAbilitiesSetting(heroId: string) {
   const { hasChanged } = userNoti;
 
   const handleAdd = (type: string) => {
-    setAbilitiesSettings((prev) => ({
-      ...prev,
-      remain: remain - 1,
-      values: {
-        ...prev.values,
+    setAbilitiesSettings((draft) => {
+      draft.remain = remain - 1;
+      draft.values = {
+        ...draft.values,
         [type]: values && values?.[type] !== undefined ? values[type] + 1 : 0,
-      },
-    }));
-    setUserNoti((prev) => ({
-      ...prev,
-      hasChanged: true,
-    }));
+      };
+    });
+
+    setUserNoti((draft) => {
+      draft.hasChanged = true;
+    });
   };
 
   const handleMinus = (type: string) => {
-    setAbilitiesSettings((prev) => ({
-      ...prev,
-      remain: remain + 1,
-      values: {
-        ...prev.values,
+    setAbilitiesSettings((draft) => {
+      draft.remain = remain + 1;
+      draft.values = {
+        ...draft.values,
         [type]: values && values?.[type] !== undefined ? values[type] - 1 : 0,
-      },
-    }));
-    setUserNoti((prev) => ({
-      ...prev,
-      hasChanged: true,
-    }));
+      };
+    });
+
+    setUserNoti((draft) => {
+      draft.hasChanged = true;
+    });
   };
 
   const checkValidate = () => {
     // check abilities is changed or not
     if (!hasChanged) {
-      setUserNoti((prev) => ({
-        ...prev,
-        alertOpen: true,
-        status: 'warning',
-        info: '請先調整能力值',
-      }));
+      setUserNoti((draft) => {
+        draft.alertOpen = true;
+        draft.status = 'warning';
+        draft.info = '請先調整能力值';
+      });
       return false;
     }
     // check remain points is 0 or not
     if (remain !== 0) {
-      setUserNoti((prev) => ({
-        ...prev,
-        alertOpen: true,
-        status: 'warning',
-        info: '請使用完剩餘點數',
-      }));
+      setUserNoti((draft) => {
+        draft.alertOpen = true;
+        draft.status = 'warning';
+        draft.info = '請使用完剩餘點數';
+      });
       return false;
     }
 
@@ -86,20 +83,19 @@ function useAbilitiesSetting(heroId: string) {
       }
       updateHeroProfile({ heroId, abilities: values })
         .then(() => {
-          setUserNoti({
-            alertOpen: true,
-            status: 'success',
-            info: '更新成功',
-            hasChanged: false,
+          setUserNoti((draft) => {
+            draft.alertOpen = true;
+            draft.status = 'success';
+            draft.info = '更新成功';
+            draft.hasChanged = false;
           });
         })
         .catch(() => {
-          setUserNoti((prev) => ({
-            ...prev,
-            alertOpen: true,
-            status: 'error',
-            info: '更新失敗',
-          }));
+          setUserNoti((draft) => {
+            draft.alertOpen = true;
+            draft.status = 'error';
+            draft.info = '更新失敗';
+          });
         })
         .finally(() => {
           if (updateStatus) {
@@ -110,26 +106,28 @@ function useAbilitiesSetting(heroId: string) {
   };
 
   const handleClose = () => {
-    setUserNoti((prev) => ({
-      ...prev,
-      alertOpen: false,
-    }));
+    setUserNoti((draft) => {
+      draft.alertOpen = false;
+    });
   };
 
-  const resetAbilities = useCallback((abilities: Abilities) => {
-    const abilitiesTitle = Object.keys(abilities);
-    setAbilitiesSettings({
-      titles: abilitiesTitle,
-      values: abilities,
-      remain: 0,
-    });
-    setUserNoti({
-      alertOpen: false,
-      status: 'warning',
-      info: 'null',
-      hasChanged: false,
-    });
-  }, []);
+  const resetAbilities = useCallback(
+    (abilities: Abilities) => {
+      const abilitiesTitle = Object.keys(abilities);
+      setAbilitiesSettings((draft) => {
+        draft.titles = abilitiesTitle;
+        draft.remain = 0;
+        draft.values = abilities;
+      });
+      setUserNoti((draft) => {
+        draft.alertOpen = false;
+        draft.status = 'warning';
+        draft.info = null;
+        draft.hasChanged = false;
+      });
+    },
+    [setAbilitiesSettings, setUserNoti],
+  );
 
   return {
     abilitiesSettings,
