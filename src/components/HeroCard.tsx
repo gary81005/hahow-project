@@ -1,8 +1,8 @@
 import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { Hero } from '../../services/types';
-import { useListAndProfileContext } from '../../context';
+import { Hero } from '../services/types';
+import { useListAndProfileContext } from '../context';
 
 type CardProps = {
   selected: boolean;

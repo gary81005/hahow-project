@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { Alert, Box, Snackbar, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 
-import { Abilities } from '../../services/types';
-import { updateHeroProfile } from '../../services/heroes';
-import { useListAndProfileContext } from '../../context';
+import { Abilities } from '../services/types';
+import { updateHeroProfile } from '../services/heroes';
+import { useListAndProfileContext } from '../context';
 import AbilityTitle from './AbilityTitle';
 import AddButton from './AddButton';
 import AbilityValue from './AbilityValue';
