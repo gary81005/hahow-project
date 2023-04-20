@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Alert, Box, Snackbar, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 
-import { updateHeroProfile } from '../services/heroes';
 import { useListAndProfileContext } from '../context';
 import AbilityTitle from './AbilityTitle';
 import AddButton from './AddButton';
 import AbilityValue from './AbilityValue';
 import MinusButton from './MinusButton';
 import SaveButton from './SaveButton';
-import { AbilitiesSettingProps, AbilitiesSettings, UserNoti } from './types';
+import { AbilitiesSettingProps } from './types';
+import useAbilitiesSetting from '../hooks/useAbilitiesSetting';
 
 const MainContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -43,129 +43,23 @@ const MainContainer = styled(Box)(({ theme }) => ({
 }));
 
 const AbilitiesSetting = ({ heroId, abilities }: AbilitiesSettingProps) => {
-  const { isLoading, updateStatus } = useListAndProfileContext();
-  const [abilitiesSettings, setAbilitiesSettings] = useState<AbilitiesSettings>({
-    titles: [],
-    values: null,
-    remain: 0,
-  });
-  const [userNoti, setUserNoti] = useState<UserNoti>({
-    alertOpen: false,
-    status: 'warning',
-    info: null,
-    hasChanged: false,
-  });
+  const { isLoading } = useListAndProfileContext();
+  const {
+    abilitiesSettings,
+    userNoti,
+    handleAdd,
+    handleClose,
+    handleMinus,
+    handleSave,
+    resetAbilities,
+  } = useAbilitiesSetting(heroId);
 
   const { titles, values, remain } = abilitiesSettings;
-  const { alertOpen, status, info, hasChanged } = userNoti;
-
-  const handleAdd = (type: string) => {
-    setAbilitiesSettings((prev) => ({
-      ...prev,
-      remain: remain - 1,
-      values: {
-        ...prev.values,
-        [type]: values && values?.[type] !== undefined ? values[type] + 1 : 0,
-      },
-    }));
-    setUserNoti((prev) => ({
-      ...prev,
-      hasChanged: true,
-    }));
-  };
-
-  const handleMinus = (type: string) => {
-    setAbilitiesSettings((prev) => ({
-      ...prev,
-      remain: remain + 1,
-      values: {
-        ...prev.values,
-        [type]: values && values?.[type] !== undefined ? values[type] - 1 : 0,
-      },
-    }));
-    setUserNoti((prev) => ({
-      ...prev,
-      hasChanged: true,
-    }));
-  };
-
-  const checkValidate = () => {
-    // check abilities is changed or not
-    if (!hasChanged) {
-      setUserNoti((prev) => ({
-        ...prev,
-        alertOpen: true,
-        status: 'warning',
-        info: '請先調整能力值',
-      }));
-      return false;
-    }
-    // check remain points is 0 or not
-    if (remain !== 0) {
-      setUserNoti((prev) => ({
-        ...prev,
-        alertOpen: true,
-        status: 'warning',
-        info: '請使用完剩餘點數',
-      }));
-      return false;
-    }
-
-    return true;
-  };
-
-  // save button click handle, it will check validation first. It will call update api if pass
-  const handleSave = () => {
-    if (values && checkValidate()) {
-      if (updateStatus) {
-        updateStatus(true);
-      }
-      updateHeroProfile({ heroId, abilities: values })
-        .then(() => {
-          setUserNoti({
-            alertOpen: true,
-            status: 'success',
-            info: '更新成功',
-            hasChanged: false,
-          });
-        })
-        .catch(() => {
-          setUserNoti((prev) => ({
-            ...prev,
-            alertOpen: true,
-            status: 'error',
-            info: '更新失敗',
-          }));
-        })
-        .finally(() => {
-          if (updateStatus) {
-            updateStatus(false);
-          }
-        });
-    }
-  };
-
-  const handleClose = () => {
-    setUserNoti((prev) => ({
-      ...prev,
-      alertOpen: false,
-    }));
-  };
+  const { alertOpen, status, info } = userNoti;
 
   useEffect(() => {
-    const abilitiesTitle = Object.keys(abilities);
-    setAbilitiesSettings({
-      titles: abilitiesTitle,
-      values: abilities,
-      remain: 0,
-    });
-    setUserNoti({
-      alertOpen: false,
-      status: 'warning',
-      info: 'null',
-      hasChanged: false,
-    });
-  }, [abilities]);
+    resetAbilities(abilities);
+  }, [abilities, resetAbilities]);
 
   return (
     <>
