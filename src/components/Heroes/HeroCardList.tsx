@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Hero } from '../../services/types';
-import HeroCard from './HeroCard';
+import { HeroCard } from '../Heroes';
 
 const HeroCardList = ({ heroId, list }: { heroId: string; list: Hero[] }) => {
   const navigate = useNavigate();
