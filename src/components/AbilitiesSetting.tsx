@@ -60,11 +60,15 @@ const AbilitiesSetting = ({ heroId, abilities }: AbilitiesSettingProps) => {
           {titles.map((opt) => (
             <Box key={opt}>
               <AbilityTitle title={opt.toUpperCase()} />
-              <AddButton size="small" disabled={remain === 0} onClick={() => handleAdd(opt)} />
+              <AddButton
+                size="small"
+                disabled={remain === 0 || isLoading}
+                onClick={() => handleAdd(opt)}
+              />
               {values ? <AbilityValue value={values[opt]} /> : 0}
               <MinusButton
                 size="small"
-                disabled={!values || values[opt] === 0}
+                disabled={!values || values[opt] === 0 || isLoading}
                 onClick={() => handleMinus(opt)}
               />
             </Box>

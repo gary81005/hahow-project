@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
 
 import { getHeroProfile, getHeroesList } from '../services/heroes';
 import { Abilities, Hero } from '../services/types';
@@ -13,12 +14,16 @@ function useList(id: string | undefined) {
   useEffect(() => {
     const con = new AbortController();
     setInitLoading(true);
-    setError(null);
     getHeroesList<Hero[]>(con)
-      .then(({ data }) => setList(data))
-      .catch(() => {
-        setError('發生錯誤');
-        setList([]);
+      .then(({ data }) => {
+        setError(null);
+        setList(data);
+      })
+      .catch((e: AxiosError) => {
+        if (e?.code !== 'ERR_CANCELED') {
+          setError('發生錯誤');
+          setList([]);
+        }
       })
       .finally(() => setInitLoading(false));
 
@@ -30,12 +35,16 @@ function useList(id: string | undefined) {
     // listen routing id change, if changed, get latest hero profile
     if (id) {
       setIsLoading(true);
-      setError(null);
       getHeroProfile<Abilities>(id, con)
-        .then(({ data }) => setAbilities(data))
-        .catch(() => {
-          setError('發生錯誤');
-          setAbilities(null);
+        .then(({ data }) => {
+          setError(null);
+          setAbilities(data);
+        })
+        .catch((e: AxiosError) => {
+          if (e?.code !== 'ERR_CANCELED') {
+            setError('發生錯誤');
+            setAbilities(null);
+          }
         })
         .finally(() => setIsLoading(false));
     }
