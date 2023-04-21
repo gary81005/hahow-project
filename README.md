@@ -118,6 +118,7 @@ https://hahow-project.vercel.app/
    - AddButton
    - MinusButton
    - SaveButton
+3. AlertInfo(共用元件)
 
 ## 第三方套件使用
 
@@ -179,4 +180,9 @@ https://hahow-project.vercel.app/
 
 - 功能的實作上其實並不困難，但初版完成後，如何優化跟切分程式、元件是比較需要花時間思考的重點
 - 防呆與 error handling 上，比較花多一點時間看怎麼做才能完善整體的機制
+  - 補上的防呆機制:
+    1. api fetch 的 error handling
+    2. 按鈕的互動防呆
 - CSS 的部分，由於本身對於美感的 sense 比較不足，需要一直不斷的嘗試才能讓畫面比較好看
+  - 調整的部分:
+    1. RWD 的版面配置
