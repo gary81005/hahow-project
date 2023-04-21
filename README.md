@@ -1,10 +1,10 @@
-# HaHow Projec(Heroes)
+# HaHow Project(Heroes)
 
 此文件將紀錄 HaHow Project 的各項說明，包含使用方式、資料夾結構、元件切分、第三方套件使用、開發歷程等等
 
 Outline:
 
-- [HaHow Projec(Heroes)](#hahow-projecheroes)
+- [HaHow Project(Heroes)](#hahow-projectheroes)
   - [介紹與使用方式](#介紹與使用方式)
   - [資料夾結構](#資料夾結構)
   - [API 使用](#api-使用)
@@ -21,7 +21,7 @@ Outline:
 
 用 vercel 部屬的 demo 網站如下:
 
-[Heroes](https://hahow-project.vercel.app/)
+https://hahow-project.vercel.app/
 
 如何在 local 端執行:
 
@@ -175,5 +175,5 @@ Outline:
 
 ### 開發上的困境
 
-- 功能的實作上其實並不困難，但初版完成後，如何優化跟切分程式、元件是比較需要花時間思考的部分
-- 需要不斷的練習跟嘗試調整，或是跟其他人溝通交流討論，才能慢慢讓程式架構越來越好
+- 功能的實作上其實並不困難，但初版完成後，如何優化跟切分程式、元件是比較需要花時間思考的重點
+- CSS 的部分，由於本身對於美感的 sense 比較不足，需要一直不斷的嘗試才能讓畫面比較好看
