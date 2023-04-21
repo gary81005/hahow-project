@@ -66,6 +66,7 @@ https://hahow-project.vercel.app/
   │  └─ react.svg
   ├─ components/
   |  ├─ types/
+  │  │  ├─ AlertInfo.ts
   │  │  ├─ HeroCardList.ts
   │  │  ├─ AbilitiesSetting.ts
   │  │  └─ index.ts
@@ -80,7 +81,8 @@ https://hahow-project.vercel.app/
   │  └─ index.ts
   ├─ hooks/
   │  ├─ index.tsx
-  │  └─ useAbilitiesSetting.tsx
+  │  ├─ useAbilitiesSetting.tsx
+  │  └─ useListAndProfile.tsx
   ├─ context/
   │  ├─ index.tsx
   │  └─ ListAndProfileContext.tsx
@@ -176,4 +178,5 @@ https://hahow-project.vercel.app/
 ### 開發上的困境
 
 - 功能的實作上其實並不困難，但初版完成後，如何優化跟切分程式、元件是比較需要花時間思考的重點
+- 防呆與 error handling 上，比較花多一點時間看怎麼做才能完善整體的機制
 - CSS 的部分，由於本身對於美感的 sense 比較不足，需要一直不斷的嘗試才能讓畫面比較好看
