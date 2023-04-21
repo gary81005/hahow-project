@@ -1,5 +1,5 @@
 import { Alert, Snackbar } from '@mui/material';
-import { AlertInfoProps } from './types/AlertInfo';
+import { AlertInfoProps } from './types';
 
 const AlertInfo = ({ alertOpen, status, info, onClose }: AlertInfoProps) => {
   return (

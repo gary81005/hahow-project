@@ -1,4 +1,4 @@
-import { Alert, Box, Snackbar, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import { useListAndProfileContext } from '../context';
