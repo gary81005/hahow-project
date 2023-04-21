@@ -7,7 +7,7 @@ import { useListAndProfileContext } from '../context';
 import { Abilities } from '../services/types';
 
 function useAbilitiesSetting(heroId: string, abilities: Abilities) {
-  const { updateStatus } = useListAndProfileContext();
+  const { updateIsLoading } = useListAndProfileContext();
   const [abilitiesSettings, setAbilitiesSettings] = useImmer<AbilitiesSettings>({
     titles: [],
     values: null,
@@ -78,9 +78,7 @@ function useAbilitiesSetting(heroId: string, abilities: Abilities) {
   // save button click handle, it will check validation first. It will call update api if pass
   const handleSave = () => {
     if (values && checkValidate()) {
-      if (updateStatus) {
-        updateStatus(true);
-      }
+      updateIsLoading!(true);
       updateHeroProfile({ heroId, abilities: values })
         .then(() => {
           setUserNoti((draft) => {
@@ -97,11 +95,7 @@ function useAbilitiesSetting(heroId: string, abilities: Abilities) {
             draft.info = '更新失敗';
           });
         })
-        .finally(() => {
-          if (updateStatus) {
-            updateStatus(false);
-          }
-        });
+        .finally(() => updateIsLoading!(false));
     }
   };
 

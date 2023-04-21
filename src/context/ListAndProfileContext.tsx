@@ -1,23 +1,27 @@
-import { ReactNode, createContext, useCallback, useContext, useState } from 'react';
+import { ReactNode, createContext, useContext } from 'react';
 
 type ListAndProfileContextType = {
-  isLoading?: boolean;
-  updateStatus?: (value: boolean) => void;
+  isLoading: boolean;
+  updateIsLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ListAndProfileContext = createContext<ListAndProfileContextType>({});
+const ListAndProfileContext = createContext<ListAndProfileContextType>({
+  isLoading: false,
+});
 const { Provider } = ListAndProfileContext;
 const useListAndProfileContext = () => useContext(ListAndProfileContext);
 
 // create a context provider to record loading status
-function ListAndProfileProvider({ children }: { children: ReactNode }) {
-  const [loading, setLoading] = useState(false);
-
-  const updateStatus = useCallback((newValue: boolean) => {
-    setLoading(newValue);
-  }, []);
-
-  return <Provider value={{ isLoading: loading, updateStatus }}>{children}</Provider>;
+function ListAndProfileProvider({
+  isLoading,
+  updateIsLoading,
+  children,
+}: {
+  isLoading: boolean;
+  updateIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  children: ReactNode;
+}) {
+  return <Provider value={{ isLoading, updateIsLoading }}>{children}</Provider>;
 }
 
 export type { ListAndProfileContextType };
