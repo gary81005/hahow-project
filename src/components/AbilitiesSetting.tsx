@@ -9,6 +9,7 @@ import MinusButton from './MinusButton';
 import SaveButton from './SaveButton';
 import { AbilitiesSettingProps } from './types';
 import useAbilitiesSetting from '../hooks/useAbilitiesSetting';
+import AlertInfo from './AlertInfo';
 
 const MainContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -79,16 +80,7 @@ const AbilitiesSetting = ({ heroId, abilities }: AbilitiesSettingProps) => {
           />
         </Box>
       </MainContainer>
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={alertOpen}
-        autoHideDuration={5000}
-        onClose={handleClose}
-      >
-        <Alert onClose={handleClose} severity={status}>
-          {info}
-        </Alert>
-      </Snackbar>
+      <AlertInfo alertOpen={alertOpen} status={status} info={info} onClose={handleClose} />
     </>
   );
 };
