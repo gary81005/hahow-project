@@ -3,7 +3,7 @@ import { IconButton, IconButtonProps } from '@mui/material';
 
 const MinusButton = (props: IconButtonProps) => {
   return (
-    <IconButton {...props}>
+    <IconButton color="primary" {...props}>
       <RemoveOutlined />
     </IconButton>
   );

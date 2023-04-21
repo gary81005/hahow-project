@@ -9,7 +9,17 @@ const Home = lazy(() => import('./pages/Home'));
 const ListAndProfile = lazy(() => import('./pages/ListAndProfile'));
 const ErroBoundaryrPage = lazy(() => import('./pages/ErroBoundaryrPage'));
 
-const theme = createTheme();
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
+});
 const router = createBrowserRouter([
   {
     path: '/',

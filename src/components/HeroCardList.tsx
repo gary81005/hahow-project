@@ -12,7 +12,7 @@ const HeroCardList = ({ heroId, list }: HeroCardListProps) => {
   return (
     <Grid container alignItems="center" columns={{ xs: 4, sm: 8, md: 12 }}>
       {list.map((opt) => (
-        <Grid item key={opt.id} xs={12 / list.length}>
+        <Grid item key={opt.id} xs={12} sm={4} md={3}>
           <HeroCard hero={opt} isSelected={opt.id === heroId} onClick={() => handleClick(opt.id)} />
         </Grid>
       ))}

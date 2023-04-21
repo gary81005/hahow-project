@@ -12,6 +12,9 @@ import useAbilitiesSetting from '../hooks/useAbilitiesSetting';
 
 const MainContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
+  [theme.breakpoints.down('sm')]: {
+    display: 'block',
+  },
   justifyContent: 'space-between',
   padding: theme.spacing(2),
   '& > .MuiBox-root:first-of-type': {
@@ -67,7 +70,7 @@ const AbilitiesSetting = ({ heroId, abilities }: AbilitiesSettingProps) => {
           ))}
         </Box>
         <Box>
-          <Typography>剩餘點數:{remain}</Typography>
+          <Typography>剩餘點數：{remain}</Typography>
           <SaveButton
             loading={isLoading}
             variant="contained"
