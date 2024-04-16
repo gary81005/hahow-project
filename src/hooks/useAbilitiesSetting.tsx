@@ -78,7 +78,7 @@ function useAbilitiesSetting(heroId: string, abilities: Abilities) {
   // save button click handle, it will check validation first. It will call update api if pass
   const handleSave = () => {
     if (values && checkValidate()) {
-      updateIsLoading!(true);
+      updateIsLoading?.(true);
       updateHeroProfile({ heroId, abilities: values })
         .then(() => {
           setUserNoti((draft) => {
@@ -95,7 +95,7 @@ function useAbilitiesSetting(heroId: string, abilities: Abilities) {
             draft.info = '更新失敗';
           });
         })
-        .finally(() => updateIsLoading!(false));
+        .finally(() => updateIsLoading?.(false));
     }
   };
 

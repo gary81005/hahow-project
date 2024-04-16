@@ -4,6 +4,31 @@ import { AxiosError } from 'axios';
 import { getHeroProfile, getHeroesList } from '../services/heroes';
 import { Abilities, Hero } from '../services/types';
 
+const mockData: Hero[] = [
+  {
+    id: '1',
+    name: 'Daredevil',
+    image: 'http://i.annihil.us/u/prod/marvel/i/mg/6/90/537ba6d49472b/standard_xlarge.jpg',
+  },
+  {
+    id: '2',
+    name: 'Thor',
+    image: 'https://cdn.marvel.com/content/1x/004tho_ons_mas_dsk_04.jpg',
+  },
+  {
+    id: '3',
+    name: 'Loki',
+    image: 'https://m.media-amazon.com/images/I/81xETRmcFwL._AC_UF1000,1000_QL80_.jpg',
+  },
+];
+
+const mockAbility: Abilities = {
+  str: 2,
+  int: 7,
+  agi: 9,
+  luk: 7,
+};
+
 function useList(id: string | undefined) {
   const [list, setList] = useState<Hero[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -21,8 +46,8 @@ function useList(id: string | undefined) {
       })
       .catch((e: AxiosError) => {
         if (e?.code !== 'ERR_CANCELED') {
-          setError('發生錯誤');
-          setList([]);
+          // setError('發生錯誤');
+          setList(mockData);
         }
       })
       .finally(() => setInitLoading(false));
@@ -42,8 +67,8 @@ function useList(id: string | undefined) {
         })
         .catch((e: AxiosError) => {
           if (e?.code !== 'ERR_CANCELED') {
-            setError('發生錯誤');
-            setAbilities(null);
+            // setError('發生錯誤');
+            setAbilities(mockAbility);
           }
         })
         .finally(() => setIsLoading(false));
